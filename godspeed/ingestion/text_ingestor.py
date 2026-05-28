@@ -1,13 +1,9 @@
 from __future__ import annotations
-
 from pathlib import Path
 from typing import Sequence
-
 from godspeed.domain.models import Document
 
-
 class TextDirectoryIngestor:
-    """Loads .txt files from a directory into document objects."""
 
     def ingest(self, source: str) -> Sequence[Document]:
         source_path = Path(source)
@@ -27,4 +23,3 @@ class TextDirectoryIngestor:
                 )
             )
         return documents
-
