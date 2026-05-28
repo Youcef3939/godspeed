@@ -1,15 +1,10 @@
 from __future__ import annotations
-
 from typing import List, Sequence
-
 import faiss
 import numpy as np
-
 from godspeed.domain.models import Chunk, SearchHit
 
-
 class FaissVectorStore:
-    """Local FAISS-backed vector store; replaceable by distributed stores."""
 
     def __init__(self) -> None:
         self._index: faiss.Index | None = None
