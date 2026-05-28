@@ -35,10 +35,10 @@ class FaissVectorStore:
         query = np.asarray([embedding], dtype="float32")
         scores, indices = self._index.search(query, top_k)
         hits: List[SearchHit] = []
-        for score, raw_index in zip(scores[0], indices[0]):
-            if raw_index < 0:
+        for score, vector_index in zip(scores[0], indices[0]):
+            if vector_index < 0:
                 continue
-            chunk = self._chunks[raw_index]
+            chunk = self._chunks[vector_index]
             hits.append(
                 SearchHit(
                     chunk_id=chunk.chunk_id,
@@ -49,4 +49,3 @@ class FaissVectorStore:
                 )
             )
         return hits
-

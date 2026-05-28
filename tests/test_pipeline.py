@@ -14,7 +14,7 @@ class StubIngestor:
         ]
 
 
-class KeywordEmbedder:
+class StubKeywordEmbedder:
     def embed(self, texts):
         vectors = []
         for text in texts:
@@ -33,7 +33,7 @@ class SearchPipelineTests(unittest.TestCase):
         pipeline = SearchPipeline(
             ingestor=StubIngestor(),
             processor=FixedSizeChunkProcessor(chunk_size=200, overlap=20),
-            embedder=KeywordEmbedder(),
+            embedder=StubKeywordEmbedder(),
             store=FaissVectorStore(),
         )
 

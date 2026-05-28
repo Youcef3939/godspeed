@@ -29,7 +29,9 @@ class SearchPipeline:
     def index(self, source: str) -> int:
         documents = self.ingestor.ingest(source)
         chunks = self.processor.split(documents)
-        embeddings: Sequence[Sequence[float]] = self.embedder.embed([c.text for c in chunks]) if chunks else []
+        embeddings: Sequence[Sequence[float]] = []
+        if chunks:
+            embeddings = self.embedder.embed([chunk.text for chunk in chunks])
         self.store.add(chunks, embeddings)
         logger.info("Indexed %d docs and %d chunks from %s", len(documents), len(chunks), source)
         return len(chunks)
@@ -38,4 +40,3 @@ class SearchPipeline:
         response = self.retriever.search(query=query, top_k=top_k)
         logger.info("Retrieved %d hits for query: %s", len(response.hits), query)
         return response
-
