@@ -1,2 +1,1 @@
-"""Godspeed search backend package."""
 
