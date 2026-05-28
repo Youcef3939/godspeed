@@ -1,15 +1,13 @@
 import unittest
-
 from godspeed.domain.models import Document
 from godspeed.pipeline import SearchPipeline
 from godspeed.processing.chunker import FixedSizeChunkProcessor
 from godspeed.storage.faiss_store import FaissVectorStore
 
-
 class StubIngestor:
     def ingest(self, source: str):
         return [
-            Document(doc_id="doc1", text="Cats are great pets.", metadata={"source": "doc1.txt"}),
+            Document(doc_id="doc1", text="Cats are amazing pets.", metadata={"source": "doc1.txt"}),
             Document(doc_id="doc2", text="Dogs love playing fetch.", metadata={"source": "doc2.txt"}),
         ]
 
