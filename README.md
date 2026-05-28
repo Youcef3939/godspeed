@@ -1,4 +1,4 @@
-# Godspeed
+# GODSPEED
 
 Godspeed is a modular AI-native search and retrieval backend designed with cleanly separated layers so each part can be swapped with distributed alternatives as scale grows.
 
