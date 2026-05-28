@@ -1,12 +1,9 @@
 from __future__ import annotations
-
 from typing import Sequence
-
 from godspeed.domain.models import Chunk, Document
 
 
 class FixedSizeChunkProcessor:
-    """Splits documents into fixed-size overlapping chunks."""
 
     def __init__(self, chunk_size: int = 500, overlap: int = 50) -> None:
         if overlap >= chunk_size:
@@ -32,4 +29,3 @@ class FixedSizeChunkProcessor:
                     )
                 )
         return chunks
-
