@@ -1,31 +1,64 @@
 # GODSPEED
 
-Godspeed is a modular AI-native search and retrieval backend designed with cleanly separated layers so each part can be swapped with distributed alternatives as scale grows.
+Godspeed is an AI-native search engine that transforms the web into structured, real-time, citation-backed knowledge for humans and AI agents
 
-## Architecture
+---
 
-`godspeed/` is intentionally split by responsibilities:
+## why?
 
-- **ingestion**: raw source loading (`TextDirectoryIngestor`)
-- **processing**: chunking and normalization (`FixedSizeChunkProcessor`)
-- **embedding**: embedding adapter (`SentenceTransformerEmbedder`)
-- **storage**: vector index backend (`FaissVectorStore`)
-- **retrieval**: ranking/retrieval orchestration (`Retriever`)
-- **pipeline**: end-to-end coordinator (`SearchPipeline`)
-- **api**: FastAPI service exposing query endpoints
-- **interfaces**: contracts/protocols to support backend replacement (distributed queues, remote embedding services, external vector DBs, etc.)
+traditional search engines give you documents to read
 
-This structure gives a production-friendly, startup-grade base while keeping today's implementation local and easy to run.
+AI systems need something different:
+- structured knowledge
+- verifiable sources
+- fast retrieval
+- reasoning-ready outputs
 
-## Current End-to-End Stack
+---
 
-- Embeddings: `sentence-transformers` (`all-MiniLM-L6-v2` by default)
-- Vector index: local `FAISS` inner-product index
-- API: `FastAPI`
+## what it does
 
-Returned query hits include ranking, score, chunk text, and source citation metadata.
+given a query, Godspeed:
 
-## Quickstart
+- retrieves relevant information from local or external sources
+- breaks content into meaningful semantic chunks
+- ranks results by relevance
+- attaches source citations
+- returns structured, machine-readable answers
+
+it is designed to power:
+- AI agents
+- research systems
+- intelligent assistants
+- RAG pipelines
+
+---
+
+## architecture
+
+`godspeed/` is split by responsibility to support both local execution and future distributed scaling:
+
+- **ingestion**: loads raw content (`TextDirectoryIngestor`)
+- **processing**: cleaning + chunking (`FixedSizeChunkProcessor`)
+- **embedding**: embedding interface (`SentenceTransformerEmbedder`)
+- **storage**: vector index layer (`FaissVectorStore`)
+- **retrieval**: ranking + search logic (`Retriever`)
+- **pipeline**: end-to-end orchestration (`SearchPipeline`)
+- **api**: fastAPI service exposing query endpoints
+- **interfaces**: abstract contracts for swapping components with distributed systems (vector DBs, remote embedding services, queues, etc)
+
+---
+
+## current implementation
+
+- embeddings: `sentence-transformers` (`all-MiniLM-L6-v2`)
+- vector search: local `FAISS`
+- API layer: `fastAPI`
+- input source: local text corpus (`.txt` files)
+
+---
+
+## quickstart
 
 ```bash
 python -m venv .venv
@@ -33,45 +66,39 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create a local corpus folder of `.txt` files, for example:
-
-```bash
+create a corpus
+```
 mkdir -p corpus
-echo "Godspeed builds modular retrieval systems." > corpus/doc1.txt
-echo "FAISS provides fast local vector search." > corpus/doc2.txt
+echo "Godspeed builds AI-native retrieval systems." > corpus/doc1.txt
+echo "FAISS enables fast vector similarity search." > corpus/doc2.txt
 ```
 
-Start the API:
-
-```bash
+run 
+```
 export GODSPEED_CORPUS_DIR=./corpus
 uvicorn godspeed.api.main:app --reload
 ```
 
+---
+
 ## API
-
-### Health
-
+### health check
 `GET /health`
 
-### Query
-
+### query
 `POST /query`
 
-Request:
-
-```json
+```
 {
-  "query": "modular retrieval",
+  "query": "vector search systems",
   "top_k": 3
 }
 ```
 
-Response:
-
-```json
+response:
+```
 {
-  "query": "modular retrieval",
+  "query": "vector search systems",
   "hits": [
     {
       "rank": 1,
@@ -81,16 +108,8 @@ Response:
       "citation": {
         "source": "corpus/doc1.txt"
       },
-      "text": "Godspeed builds modular retrieval systems."
+      "text": "Godspeed builds AI-native retrieval systems."
     }
   ]
 }
-```
-
-## Testing
-
-Run focused tests:
-
-```bash
-python -m unittest discover -s tests -p "test_*.py"
 ```
