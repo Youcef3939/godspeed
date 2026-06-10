@@ -36,7 +36,7 @@ it is designed to power:
 
 ## architecture
 
-`godspeed/` is split by responsibility to support both local execution and future distributed scaling:
+`godspeed/` is split by responsibility to support both local execution and future distributed scaling: 
 
 - **ingestion**: loads raw content (`TextDirectoryIngestor`)
 - **processing**: cleaning + chunking (`FixedSizeChunkProcessor`)
@@ -45,7 +45,7 @@ it is designed to power:
 - **retrieval**: ranking + search logic (`Retriever`)
 - **pipeline**: end-to-end orchestration (`SearchPipeline`)
 - **api**: fastAPI service exposing query endpoints
-- **interfaces**: abstract contracts for swapping components with distributed systems (vector DBs, remote embedding services, queues, etc)
+- **interfaces**: abstract contracts for swapping components with distributed systems (vector DBs, remote embedding services, queues, etc..)
 
 ---
 
